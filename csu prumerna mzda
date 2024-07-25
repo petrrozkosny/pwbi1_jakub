@@ -1,0 +1,7 @@
+let
+    Zdroj = #table({"test"},{{1}}),
+    #"Spustit skript jazyka Python" = Python.Execute("# Parametr 'dataset' obsahuje vstupní data pro tento skript.#(lf)import requests#(lf)from bs4 import BeautifulSoup#(lf)import pandas as pd#(lf)#(lf)# URL of the page to scrape#(lf)url = ""https://csu.gov.cz/zamestnanci-a-mzdy?pocet=10&start=0&1_pocet=10&1_start=0&skupiny=11&vlastnostiVystupu=15&pouzeVydane=true&razeni=-datumVydani&1_skupiny=11&1_vlastnostiVystupu=12&1_razeni=-datumVydani""#(lf)#(lf)# Send a GET request to the page#(lf)response = requests.get(url)#(lf)#(lf)# Parse the HTML content using BeautifulSoup#(lf)soup = BeautifulSoup(response.text, 'html.parser')#(lf)#(lf)# Find the value associated with the class 'csu-currently-item__value'#(lf)value_element = soup.find(class_='csu-currently-item__value')#(lf)#(lf)# Extract the text from the found element#(lf)value = value_element.get_text(strip=True) if value_element else ""Value not found""#(lf)#(lf)df = pd.DataFrame({'hodnota': [value]})#(lf)",[dataset=Zdroj]),
+    df = #"Spustit skript jazyka Python"{[Name="df"]}[Value],
+    #"Změněný typ" = Table.TransformColumnTypes(df,{{"hodnota", Currency.Type}})
+ in
+ #"Změněný typ"
