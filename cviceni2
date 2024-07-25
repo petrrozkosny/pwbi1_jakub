@@ -1,0 +1,47 @@
+16 suma srazek ruzyne = 
+SUMX(
+    FILTER(data,data[lokalita] = "RUZYNE"),
+data[srazky])
+
+_______________________________________________
+
+17 suma srazek kumulativne = 
+SUMX(
+    FILTER(
+        ALL(data),
+    data[rok] = MAX(data[rok])
+    && data[mesic] <= MAX(data[mesic])),
+   
+data[srazky])
+
+_______________________________________
+
+18 suma srazek kumulativne ruzyne = 
+SUMX(
+    FILTER(
+        ALL(data),
+    data[rok] = MAX(data[rok])
+    && data[mesic] <= MAX(data[mesic])
+    && data[lokalita] = "RUZYNE"),
+data[srazky])
+
+  __________________________
+
+  19 suma srazek ve stejnem mesici predchoziho roku = 
+SUMX(
+    FILTER(
+        ALL(data),
+    data[mesic] = MAX(data[mesic])
+    && data[rok] = MAX(data[rok]) - 1),
+data[srazky])
+
+
+____________________________________
+
+20 datum maximalnich srazek v danem roce, mesici, ruzyne = 
+CONCATENATEX(
+FILTER(
+    data,
+    data[lokalita] = "RUZYNE"
+    && data[srazky] = MAXX(FILTER(data,data[lokalita] = "RUZYNE"),data[srazky])),
+data[datum],", ")
