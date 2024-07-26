@@ -55,3 +55,18 @@ SUMX(
 data[srazky])
 
 _______________________________
+cv10 lokalita nejvice null = 
+VAR _tabulka = 
+ADDCOLUMNS(
+    ALL(data[lokalita]),
+"pocet nulll",
+CALCULATE(
+    COUNT(data[datum]),ISBLANK(data[srazky])))
+
+VAR _maximalni = MAXX(_tabulka,[pocet nulll])
+RETURN
+CONCATENATEX(
+    FILTER(
+    _tabulka,
+    [pocet nulll] = _maximalni),
+data[lokalita],", ")
