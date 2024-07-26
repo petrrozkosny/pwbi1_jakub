@@ -70,3 +70,24 @@ CONCATENATEX(
     _tabulka,
     [pocet nulll] = _maximalni),
 data[lokalita],", ")
+
+
+_______________
+
+24 srazky karta = 
+
+VAR _srazky = SUM(data[srazky])
+VAR _srazky_predchozi  = 
+SUMX(
+    FILTER(
+        ALL(data),
+    data[lokalita] = SELECTEDVALUE(data[lokalita])
+    && data[rok] = SELECTEDVALUE(data[rok])- 1),
+data[srazky])
+
+VAR _mezirocne_abs = ROUND(_srazky - _srazky_predchozi,2)
+VAR _mezirocne_pct = FORMAT((_srazky / _srazky_predchozi)-1,"PERCENT")
+
+RETURN 
+IF(_mezirocne_abs <0,UNICHAR(11167), UNICHAR(11165))&" "&
+_mezirocne_abs&" / "&_mezirocne_pct
